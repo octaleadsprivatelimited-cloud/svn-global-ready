@@ -94,11 +94,15 @@ const Contact = () => {
 
   return (
     <div className="pt-20">
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-hero text-primary-foreground overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-1/4 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl translate-x-1/2" />
-        </div>
+      {/* Hero Section with Background Image */}
+      <section 
+        className="relative py-24 text-primary-foreground overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(26, 54, 93, 0.92), rgba(26, 54, 93, 0.75)), url('/mica-biotite.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
         <div className="container mx-auto px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -113,7 +117,7 @@ const Contact = () => {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6">
               Contact <span className="text-secondary">Us</span>
             </h1>
-            <p className="text-xl text-primary-foreground/80 leading-relaxed">
+            <p className="text-xl text-primary-foreground/90 leading-relaxed">
               Ready to source premium mica products? Get in touch with our team 
               for inquiries, quotes, and support.
             </p>

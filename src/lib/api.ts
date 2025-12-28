@@ -1,16 +1,17 @@
 // API Configuration
-// For production, this should point to your backend API
-// When using Lovable Cloud (Supabase), this is handled automatically
+// Uses Lovable Cloud (Supabase) for backend functionality
 
+// Supabase URLs from environment variables
+export const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+export const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+export const SUPABASE_PROJECT_ID = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+
+// Legacy API URL support (for external backends if needed)
 const getApiUrl = (): string => {
-  // Check for environment variable first
   const envApiUrl = import.meta.env.VITE_API_URL;
-  
   if (envApiUrl && envApiUrl.trim() !== '') {
     return envApiUrl.trim();
   }
-  
-  // Default to relative URLs (same origin)
   return '';
 };
 
@@ -19,11 +20,9 @@ export const API_URL = getApiUrl();
 // Helper function to get full API endpoint URL
 export const getApiEndpoint = (endpoint: string): string => {
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  
   if (!API_URL) {
     return cleanEndpoint;
   }
-  
   const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
   return `${baseUrl}${cleanEndpoint}`;
 };
@@ -31,30 +30,28 @@ export const getApiEndpoint = (endpoint: string): string => {
 // Type definitions for API responses
 export interface Product {
   id: string;
-  title: string;
-  description: string;
-  image?: string;
-  features?: string[];
-  applications?: string[];
-  category?: string;
+  name: string;
+  description: string | null;
+  image_url: string | null;
+  category: string | null;
+  is_active: boolean;
+  created_at: string;
 }
 
 export interface TestReport {
   id: string;
   title: string;
-  category: string;
-  date: string;
-  description: string;
-  file?: string;
-  certifications?: string[];
-  parameters?: string[];
+  description: string | null;
+  file_url: string | null;
+  is_public: boolean;
+  created_at: string;
 }
 
 export interface ContactFormData {
   name: string;
   email: string;
   phone?: string;
-  company?: string;
+  subject?: string;
   message: string;
 }
 
