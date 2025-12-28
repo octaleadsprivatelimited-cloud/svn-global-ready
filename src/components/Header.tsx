@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -10,7 +10,7 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -31,45 +31,42 @@ const Header = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+    <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-background/95 backdrop-blur-md shadow-lg border-b border-border'
-          : 'bg-background shadow-sm'
+          ? 'bg-background shadow-md'
+          : 'bg-background'
       }`}
     >
-      <nav className="container mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <nav className="container mx-auto px-4 md:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <div className="relative">
-              <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center shadow-blue">
-                <span className="text-primary-foreground font-display font-bold text-xl">S</span>
-              </div>
-            </div>
+          <Link to="/" className="flex items-center gap-3">
+            <img
+              src="/logo.png"
+              alt="SVN Global Logo"
+              className="h-10 w-auto object-contain"
+            />
             <div className="hidden sm:block">
-              <h1 className="text-xl font-display font-bold text-foreground tracking-tight">
+              <h1 className="text-lg font-bold text-foreground leading-tight">
                 SVN Global
               </h1>
-              <p className="text-xs text-muted-foreground">
-                Mica Covers Export
+              <p className="text-xs text-secondary font-medium uppercase tracking-wider">
+                MICA COVERS
               </p>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
+          <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                className={`px-4 py-2 text-sm font-medium transition-colors rounded-md ${
                   isActive(link.path)
-                    ? 'bg-primary text-primary-foreground shadow-blue'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-foreground hover:bg-muted'
                 }`}
               >
                 {link.label}
@@ -77,19 +74,18 @@ const Header = () => {
             ))}
           </div>
 
-          {/* CTA & Mobile Menu Toggle */}
-          <div className="flex items-center space-x-4">
+          {/* CTA & Mobile Menu */}
+          <div className="flex items-center gap-3">
             <Link
               to="/contact"
-              className="hidden md:inline-flex items-center px-5 py-2.5 bg-gradient-gold text-secondary-foreground font-semibold rounded-lg shadow-gold hover:-translate-y-0.5 transition-all duration-200"
+              className="hidden md:inline-flex items-center px-5 py-2 bg-secondary text-secondary-foreground font-semibold text-sm rounded-md hover:brightness-110 transition-all"
             >
-              Get Quote
+              Request Quote
             </Link>
 
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg text-muted-foreground hover:bg-muted transition-colors"
+              className="lg:hidden p-2 text-foreground hover:bg-muted rounded-md transition-colors"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -104,18 +100,17 @@ const Header = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-              className="lg:hidden overflow-hidden"
+              className="lg:hidden overflow-hidden border-t border-border"
             >
-              <div className="py-4 space-y-1 border-t border-border">
+              <div className="py-4 space-y-1">
                 {navLinks.map((link) => (
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
+                    className={`block px-4 py-3 rounded-md text-sm font-medium ${
                       isActive(link.path)
                         ? 'bg-primary text-primary-foreground'
-                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                        : 'text-foreground hover:bg-muted'
                     }`}
                   >
                     {link.label}
@@ -123,16 +118,16 @@ const Header = () => {
                 ))}
                 <Link
                   to="/contact"
-                  className="block mt-4 px-4 py-3 bg-gradient-gold text-secondary-foreground font-semibold rounded-lg text-center shadow-gold"
+                  className="block mt-3 mx-4 py-3 bg-secondary text-secondary-foreground font-semibold text-sm rounded-md text-center"
                 >
-                  Get Quote
+                  Request Quote
                 </Link>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </nav>
-    </motion.header>
+    </header>
   );
 };
 

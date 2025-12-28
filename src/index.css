@@ -4,122 +4,93 @@
 @tailwind components;
 @tailwind utilities;
 
-/* SVN Global Design System
-   Corporate identity for Mica Covers Import/Export Business
-   Brand Colors: Royal Blue, Metallic Gold, Professional grays
-*/
+/* SVN Global Design System - Matching Reference Site */
 
 @layer base {
   :root {
-    /* Primary Brand Colors */
-    --primary: 210 100% 20%;
+    /* Primary - Dark Blue */
+    --primary: 210 35% 20%;
     --primary-foreground: 0 0% 100%;
     
-    /* Secondary - Metallic Gold */
-    --secondary: 43 72% 47%;
-    --secondary-foreground: 0 0% 100%;
+    /* Secondary - Gold/Amber */
+    --secondary: 43 90% 50%;
+    --secondary-foreground: 210 35% 15%;
     
-    /* Backgrounds */
+    /* Background & Foreground */
     --background: 0 0% 100%;
-    --foreground: 220 15% 15%;
+    --foreground: 210 20% 15%;
     
-    /* Cards & Surfaces */
+    /* Cards */
     --card: 0 0% 100%;
-    --card-foreground: 220 15% 15%;
+    --card-foreground: 210 20% 15%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 15%;
+    --popover-foreground: 210 20% 15%;
     
-    /* Muted Elements */
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 46%;
+    /* Muted */
+    --muted: 210 20% 97%;
+    --muted-foreground: 210 10% 45%;
     
-    /* Accent - Gold tint */
-    --accent: 43 40% 95%;
-    --accent-foreground: 43 72% 30%;
+    /* Accent - Light Gold */
+    --accent: 43 50% 95%;
+    --accent-foreground: 43 90% 35%;
     
     /* Destructive */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     
-    /* Borders & Inputs */
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 210 100% 20%;
+    /* Borders */
+    --border: 210 20% 90%;
+    --input: 210 20% 90%;
+    --ring: 210 35% 20%;
     
-    /* Border Radius */
-    --radius: 0.75rem;
+    --radius: 0.5rem;
     
-    /* Custom Brand Colors */
-    --royal-blue: 210 100% 20%;
-    --royal-blue-dark: 210 100% 12%;
-    --royal-blue-light: 210 70% 94%;
-    --metallic-gold: 43 72% 47%;
-    --gold-light: 43 60% 90%;
-    --warm-white: 40 33% 98%;
-    --charcoal: 220 15% 15%;
-    
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(210, 100%, 20%) 0%, hsl(210, 100%, 12%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(43, 72%, 47%) 0%, hsl(43, 72%, 35%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(210, 100%, 20%) 0%, hsl(210, 100%, 15%) 50%, hsl(210, 100%, 12%) 100%);
-    
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(220 15% 15% / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(220 15% 15% / 0.1), 0 2px 4px -2px hsl(220 15% 15% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(220 15% 15% / 0.1), 0 4px 6px -4px hsl(220 15% 15% / 0.1);
-    --shadow-xl: 0 20px 25px -5px hsl(220 15% 15% / 0.1), 0 8px 10px -6px hsl(220 15% 15% / 0.1);
-    --shadow-gold: 0 4px 14px -3px hsl(43 72% 47% / 0.4);
-    --shadow-blue: 0 4px 14px -3px hsl(210 100% 20% / 0.3);
+    /* Custom Colors */
+    --royal-blue: 210 35% 20%;
+    --royal-blue-dark: 210 40% 12%;
+    --gold: 43 90% 50%;
+    --gold-light: 43 70% 92%;
     
     /* Sidebar */
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 220 15% 26%;
-    --sidebar-primary: 210 100% 20%;
+    --sidebar-foreground: 210 15% 26%;
+    --sidebar-primary: 210 35% 20%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 220 14% 96%;
-    --sidebar-accent-foreground: 210 100% 20%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 210 100% 50%;
+    --sidebar-accent: 210 20% 96%;
+    --sidebar-accent-foreground: 210 35% 20%;
+    --sidebar-border: 210 20% 90%;
+    --sidebar-ring: 210 80% 50%;
   }
 
   .dark {
-    --primary: 43 72% 50%;
-    --primary-foreground: 210 100% 10%;
-    
+    --primary: 43 90% 50%;
+    --primary-foreground: 210 35% 10%;
     --secondary: 210 50% 30%;
     --secondary-foreground: 0 0% 98%;
-    
-    --background: 220 20% 8%;
+    --background: 210 30% 8%;
     --foreground: 0 0% 95%;
-    
-    --card: 220 20% 10%;
+    --card: 210 30% 10%;
     --card-foreground: 0 0% 95%;
-    
-    --popover: 220 20% 10%;
+    --popover: 210 30% 10%;
     --popover-foreground: 0 0% 95%;
-    
-    --muted: 220 15% 15%;
-    --muted-foreground: 220 10% 60%;
-    
-    --accent: 220 15% 15%;
-    --accent-foreground: 43 72% 60%;
-    
+    --muted: 210 25% 15%;
+    --muted-foreground: 210 15% 60%;
+    --accent: 210 25% 15%;
+    --accent-foreground: 43 90% 60%;
     --destructive: 0 62% 45%;
     --destructive-foreground: 0 0% 98%;
-    
-    --border: 220 15% 18%;
-    --input: 220 15% 18%;
-    --ring: 43 72% 50%;
-    
-    --sidebar-background: 220 20% 8%;
-    --sidebar-foreground: 220 10% 80%;
-    --sidebar-primary: 43 72% 50%;
+    --border: 210 25% 18%;
+    --input: 210 25% 18%;
+    --ring: 43 90% 50%;
+    --sidebar-background: 210 30% 8%;
+    --sidebar-foreground: 210 15% 80%;
+    --sidebar-primary: 43 90% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 15% 15%;
-    --sidebar-accent-foreground: 220 10% 80%;
-    --sidebar-border: 220 15% 18%;
-    --sidebar-ring: 43 72% 50%;
+    --sidebar-accent: 210 25% 15%;
+    --sidebar-accent-foreground: 210 15% 80%;
+    --sidebar-border: 210 25% 18%;
+    --sidebar-ring: 43 90% 50%;
   }
 }
 
@@ -133,63 +104,51 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
   }
 }
 
 @layer components {
-  /* Hero Button Styles */
-  .btn-hero {
-    @apply inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-300;
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold rounded-md transition-all duration-200;
+    background: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
   }
   
-  .btn-hero-primary {
-    @apply btn-hero bg-secondary text-secondary-foreground hover:shadow-gold hover:-translate-y-0.5;
-    background: var(--gradient-gold);
+  .btn-primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
   }
   
-  .btn-hero-outline {
-    @apply btn-hero border-2 border-white/30 text-white backdrop-blur-sm hover:bg-white/10 hover:border-white/50;
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold rounded-md border-2 transition-all duration-200;
+    border-color: hsl(var(--primary));
+    color: hsl(var(--primary));
   }
   
-  /* Card Styles */
-  .card-elevated {
-    @apply bg-card rounded-xl border border-border shadow-md hover:shadow-lg transition-all duration-300;
+  .btn-outline:hover {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
   }
   
-  .card-glass {
-    @apply bg-white/80 backdrop-blur-md rounded-xl border border-white/20 shadow-lg;
-  }
-  
-  /* Section Styles */
   .section-padding {
-    @apply py-16 md:py-24;
+    @apply py-16 md:py-20;
   }
   
   .container-custom {
-    @apply container mx-auto px-6 lg:px-8;
-  }
-  
-  /* Gradient Text */
-  .text-gradient-gold {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600;
-  }
-  
-  .text-gradient-blue {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800;
+    @apply container mx-auto px-4 md:px-6 lg:px-8;
   }
 }
 
 @layer utilities {
-  /* Custom Scrollbar */
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
   }
 
   ::-webkit-scrollbar-track {
@@ -198,97 +157,38 @@
 
   ::-webkit-scrollbar-thumb {
     background: hsl(var(--primary));
-    border-radius: 5px;
+    border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--royal-blue-dark));
   }
-  
-  /* Animation Utilities */
-  .animate-fade-in {
-    animation: fadeIn 0.6s ease-out forwards;
-  }
-  
-  .animate-slide-up {
-    animation: slideUp 0.6s ease-out forwards;
-  }
-  
-  .animate-scale-in {
-    animation: scaleIn 0.4s ease-out forwards;
-  }
-  
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  .animate-shimmer {
-    animation: shimmer 2s linear infinite;
-    background-size: 200% 100%;
-  }
 }
 
 /* Keyframe Animations */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
 }
 
-/* Gradient animation for hero sections */
-@keyframes gradientFlow {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.animate-gradient-flow {
-  animation: gradientFlow 8s ease infinite;
-  background-size: 200% 200%;
+.animate-slide-down {
+  animation: slideDown 0.3s ease-out forwards;
 }
