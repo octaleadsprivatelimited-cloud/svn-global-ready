@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { 
-  Target, Eye, Heart, MapPin, Award, Globe, 
-  TrendingUp, Users, Shield, Factory, ArrowRight 
+  Target, Eye, Heart, ArrowRight 
 } from 'lucide-react';
 
 const About = () => {
@@ -39,21 +38,28 @@ const About = () => {
 
   return (
     <div className="pt-16">
-      {/* Hero */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+      {/* Hero with Background Image */}
+      <section 
+        className="relative py-24 text-primary-foreground overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(26, 54, 93, 0.92), rgba(26, 54, 93, 0.75)), url('/mica-blocks.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-3xl"
           >
-            <span className="text-secondary font-medium text-sm uppercase tracking-wider">
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/20 rounded-full text-secondary text-sm font-medium mb-6">
               About Us
             </span>
-            <h1 className="text-4xl md:text-5xl font-bold mt-2 mb-6">
-              About SVN Global
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mt-2 mb-6">
+              About <span className="text-secondary">SVN Global</span>
             </h1>
-            <p className="text-lg text-primary-foreground/80 leading-relaxed">
+            <p className="text-xl text-primary-foreground/90 leading-relaxed">
               A leading manufacturer and exporter of premium quality mica products, 
               serving industries worldwide with excellence, integrity, and innovation.
             </p>
@@ -220,8 +226,15 @@ const About = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8 text-center">
+      <section 
+        className="relative py-20 text-primary-foreground overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(26, 54, 93, 0.95), rgba(26, 54, 93, 0.85)), url('/mica-flakes.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Ready to Partner with Us?
           </h2>

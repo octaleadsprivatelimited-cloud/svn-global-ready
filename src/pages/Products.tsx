@@ -76,21 +76,29 @@ const Products = () => {
 
   return (
     <div className="pt-16">
-      {/* Hero */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+      {/* Hero with Background Image */}
+      <section 
+        className="relative py-24 text-primary-foreground overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(26, 54, 93, 0.92), rgba(26, 54, 93, 0.75)), url('/mica-flakes.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-3xl"
           >
-            <span className="text-secondary font-medium text-sm uppercase tracking-wider">
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/20 rounded-full text-secondary text-sm font-medium mb-6">
+              <Package className="w-4 h-4" />
               Our Products
             </span>
-            <h1 className="text-4xl md:text-5xl font-bold mt-2 mb-6">
-              Premium Mica Products
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mt-2 mb-6">
+              Premium <span className="text-secondary">Mica Products</span>
             </h1>
-            <p className="text-lg text-primary-foreground/80 leading-relaxed">
+            <p className="text-xl text-primary-foreground/90 leading-relaxed">
               Explore our comprehensive range of high-quality mica products 
               manufactured for global industrial applications.
             </p>
@@ -140,7 +148,7 @@ const Products = () => {
                       Enquiry Now
                     </Link>
                     <a
-                      href={`https://wa.me/${whatsappNumber}?text=Hi, I'm interested in ${product.title}`}
+                      href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hi, I'm interested in ${product.title}`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex-1 py-2 bg-[#25D366] text-white text-center text-sm font-semibold rounded-md hover:brightness-110 transition-all flex items-center justify-center gap-1"
@@ -205,9 +213,16 @@ const Products = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8 text-center">
+      {/* CTA with Background */}
+      <section 
+        className="relative py-20 text-primary-foreground overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(26, 54, 93, 0.95), rgba(26, 54, 93, 0.85)), url('/mica-powder.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Need Custom Specifications?
           </h2>
