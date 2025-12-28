@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
-  Mail, Phone, MapPin, MessageCircle, Send, Building2, 
-  Clock, Globe, CheckCircle 
+  Mail, Phone, MapPin, MessageCircle, Send, 
+  Clock, CheckCircle 
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const Contact = () => {
   const { toast } = useToast();
@@ -16,7 +16,7 @@ const Contact = () => {
     name: '',
     email: '',
     phone: '',
-    company: '',
+    subject: '',
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,16 +32,35 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      const { error } = await supabase
+        .from('contact_inquiries')
+        .insert({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || null,
+          subject: formData.subject || null,
+          message: formData.message,
+        });
 
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for contacting us. We'll get back to you soon.",
-    });
+      if (error) throw error;
 
-    setFormData({ name: '', email: '', phone: '', company: '', message: '' });
-    setIsSubmitting(false);
+      toast({
+        title: "Message Sent!",
+        description: "Thank you for contacting us. We'll get back to you soon.",
+      });
+
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
@@ -163,14 +182,14 @@ const Contact = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Company Name
+                      Subject
                     </label>
                     <Input
                       type="text"
-                      name="company"
-                      value={formData.company}
+                      name="subject"
+                      value={formData.subject}
                       onChange={handleChange}
-                      placeholder="Your Company"
+                      placeholder="Product Inquiry"
                       className="h-12"
                     />
                   </div>
