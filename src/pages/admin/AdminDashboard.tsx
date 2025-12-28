@@ -133,8 +133,8 @@ const AdminDashboard = () => {
   ];
 
   const quickActions = [
-    { label: 'Add Product', icon: <Package className="w-5 h-5" />, href: '#', action: 'add' },
-    { label: 'Add Test Report', icon: <FileText className="w-5 h-5" />, href: '#', action: 'add' },
+    { label: 'Manage Products', icon: <Package className="w-5 h-5" />, href: '/admin/products', action: 'add' },
+    { label: 'Manage Test Reports', icon: <FileText className="w-5 h-5" />, href: '/admin/test-reports', action: 'add' },
     { label: 'View Website', icon: <Home className="w-5 h-5" />, href: '/', external: true },
   ];
 
