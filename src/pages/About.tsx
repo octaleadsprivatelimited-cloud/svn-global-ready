@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { 
   Target, Eye, Heart, MapPin, Award, Globe, 
-  TrendingUp, Users, Shield, CheckCircle, Factory, Calendar 
+  TrendingUp, Users, Shield, Factory, ArrowRight 
 } from 'lucide-react';
 
 const About = () => {
@@ -23,77 +24,57 @@ const About = () => {
     },
   ];
 
-  const exportRegions = [
-    'North America',
-    'Europe',
-    'Asia Pacific',
-    'Middle East',
-    'Africa',
-    'South America',
+  const stats = [
+    { value: '10+', label: 'Years Experience' },
+    { value: '24+', label: 'Export Countries' },
+    { value: '500+', label: 'Global Clients' },
+    { value: '100%', label: 'Quality Assured' },
   ];
 
-  const achievements = [
-    { number: '10+', label: 'Years Exporting', icon: <TrendingUp className="w-6 h-6" /> },
-    { number: '24+', label: 'Export Countries', icon: <Globe className="w-6 h-6" /> },
-    { number: '500+', label: 'Global Clients', icon: <Users className="w-6 h-6" /> },
-    { number: '100%', label: 'Quality Assured', icon: <Shield className="w-6 h-6" /> },
-  ];
-
-  const timeline = [
-    { year: '2013', title: 'Company Founded', description: 'Started operations in mica mining and processing' },
-    { year: '2015', title: 'First Export', description: 'Expanded to international markets with first export shipment' },
-    { year: '2018', title: 'ISO Certification', description: 'Achieved ISO 9001 quality management certification' },
-    { year: '2020', title: 'Global Expansion', description: 'Reached 20+ countries with consistent quality supply' },
-    { year: '2023', title: '10 Years Strong', description: 'Celebrated a decade of export excellence' },
+  const products = [
+    'Mica Blocks', 'Mica Flakes', 'Mica Powder', 'Mica Scrap', 
+    'Mica Splittings', 'Mica Sheets', 'Mica Insulators', 
+    'Mica Washers', 'Mica Strips', 'Art Craft Products'
   ];
 
   return (
-    <div className="pt-20">
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-hero text-primary-foreground overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-1/4 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl translate-x-1/2" />
-        </div>
-        <div className="container mx-auto px-6 lg:px-8 relative z-10">
+    <div className="pt-16">
+      {/* Hero */}
+      <section className="py-16 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
             className="max-w-3xl"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/20 rounded-full text-secondary text-sm font-medium mb-6">
-              <Factory className="w-4 h-4" />
-              Est. 2013
+            <span className="text-secondary font-medium text-sm uppercase tracking-wider">
+              About Us
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6">
-              About <span className="text-secondary">SVN Global</span>
+            <h1 className="text-4xl md:text-5xl font-bold mt-2 mb-6">
+              About SVN Global
             </h1>
-            <p className="text-xl text-primary-foreground/80 leading-relaxed">
-              A leading exporter of premium quality mica covers and products, 
+            <p className="text-lg text-primary-foreground/80 leading-relaxed">
+              A leading manufacturer and exporter of premium quality mica products, 
               serving industries worldwide with excellence, integrity, and innovation.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-muted">
-        <div className="container mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {achievements.map((stat, index) => (
+      {/* Stats */}
+      <section className="py-12 bg-muted">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {stats.map((stat, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="text-center"
               >
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary text-primary-foreground mb-4 shadow-blue">
-                  {stat.icon}
-                </div>
-                <div className="text-3xl md:text-4xl font-display font-bold text-foreground mb-1">
-                  {stat.number}
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-1">
+                  {stat.value}
                 </div>
                 <div className="text-muted-foreground text-sm">{stat.label}</div>
               </motion.div>
@@ -104,47 +85,52 @@ const About = () => {
 
       {/* Our Story */}
       <section className="section-padding bg-background">
-        <div className="container mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <span className="inline-block px-4 py-1 bg-accent text-accent-foreground rounded-full text-sm font-medium mb-4">
-                Our Story
-              </span>
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-6">
-                A Legacy of <span className="text-gradient-gold">Excellence</span>
-              </h2>
-              <div className="space-y-4 text-muted-foreground leading-relaxed">
-                <p>
-                  Founded in 2013, SVN Global has grown from a local mica processing unit 
-                  to a leading international exporter of premium mica products.
-                </p>
-                <p>
-                  Our journey began with a simple vision: to provide the world with the 
-                  finest quality mica covers while maintaining the highest standards of 
-                  business ethics and environmental responsibility.
-                </p>
-                <p>
-                  Today, we proudly serve customers across 24+ countries, delivering 
-                  consistent quality, reliable service, and innovative solutions for 
-                  diverse industrial applications.
-                </p>
-              </div>
+              <img
+                src="/mica-blocks.jpg"
+                alt="SVN Global Factory"
+                className="w-full rounded-lg shadow-lg"
+              />
             </motion.div>
-
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="relative"
             >
-              <div className="aspect-square bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl flex items-center justify-center">
-                <Factory className="w-32 h-32 text-primary/30" />
+              <span className="text-secondary font-medium text-sm uppercase tracking-wider">
+                Our Story
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2 mb-6">
+                A Legacy of Excellence
+              </h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                SVN Global is a leading manufacturer and exporter of premium quality mica products, 
+                serving industries worldwide. We specialize in manufacturing and exporting a 
+                comprehensive range of mica products.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                Our commitment to superior quality and adherence to international standards has made 
+                us a trusted partner in the electronic industry. With our expert team and global 
+                export network, we deliver excellence in every product.
+              </p>
+              
+              <h4 className="font-semibold text-foreground mb-3">Our Products:</h4>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {products.map((product, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-muted text-muted-foreground rounded-full text-sm"
+                  >
+                    {product}
+                  </span>
+                ))}
               </div>
-              <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-secondary/10 rounded-2xl -z-10" />
             </motion.div>
           </div>
         </div>
@@ -152,18 +138,18 @@ const About = () => {
 
       {/* Mission & Vision */}
       <section className="section-padding bg-muted">
-        <div className="container mx-auto px-6 lg:px-8">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="card-elevated p-8"
+              className="bg-card p-8 rounded-lg shadow-md"
             >
-              <div className="w-14 h-14 rounded-xl bg-primary text-primary-foreground flex items-center justify-center mb-6">
+              <div className="w-14 h-14 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-4">
                 <Target className="w-7 h-7" />
               </div>
-              <h3 className="text-2xl font-display font-bold text-foreground mb-4">
+              <h3 className="text-2xl font-bold text-foreground mb-4">
                 Our Mission
               </h3>
               <p className="text-muted-foreground leading-relaxed">
@@ -178,12 +164,12 @@ const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="card-elevated p-8"
+              className="bg-card p-8 rounded-lg shadow-md"
             >
-              <div className="w-14 h-14 rounded-xl bg-secondary text-secondary-foreground flex items-center justify-center mb-6">
+              <div className="w-14 h-14 rounded-full bg-secondary/20 text-secondary flex items-center justify-center mb-4">
                 <Eye className="w-7 h-7" />
               </div>
-              <h3 className="text-2xl font-display font-bold text-foreground mb-4">
+              <h3 className="text-2xl font-bold text-foreground mb-4">
                 Our Vision
               </h3>
               <p className="text-muted-foreground leading-relaxed">
@@ -198,20 +184,15 @@ const About = () => {
 
       {/* Values */}
       <section className="section-padding bg-background">
-        <div className="container mx-auto px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center max-w-3xl mx-auto mb-16"
-          >
-            <span className="inline-block px-4 py-1 bg-accent text-accent-foreground rounded-full text-sm font-medium mb-4">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-secondary font-medium text-sm uppercase tracking-wider">
               Our Values
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-              What <span className="text-gradient-gold">Drives Us</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
+              What Drives Us
             </h2>
-          </motion.div>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {values.map((value, index) => (
@@ -221,12 +202,12 @@ const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="card-elevated p-8 text-center group hover:-translate-y-1"
+                className="text-center p-6"
               >
-                <div className="w-16 h-16 rounded-2xl bg-accent text-accent-foreground flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4">
                   {value.icon}
                 </div>
-                <h3 className="text-xl font-display font-semibold text-foreground mb-3">
+                <h3 className="text-xl font-bold text-foreground mb-3">
                   {value.title}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
@@ -238,90 +219,22 @@ const About = () => {
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="section-padding bg-muted">
-        <div className="container mx-auto px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center max-w-3xl mx-auto mb-16"
+      {/* CTA */}
+      <section className="py-16 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Ready to Partner with Us?
+          </h2>
+          <p className="text-primary-foreground/80 mb-8 max-w-xl mx-auto">
+            Get in touch to discuss your mica product requirements
+          </p>
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-secondary text-secondary-foreground font-semibold rounded-md hover:brightness-110 transition-all"
           >
-            <span className="inline-block px-4 py-1 bg-accent text-accent-foreground rounded-full text-sm font-medium mb-4">
-              Our Journey
-            </span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-              Milestones & <span className="text-gradient-gold">Achievements</span>
-            </h2>
-          </motion.div>
-
-          <div className="max-w-3xl mx-auto">
-            {timeline.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="relative pl-8 pb-10 last:pb-0"
-              >
-                {/* Timeline line */}
-                <div className="absolute left-0 top-0 bottom-0 w-px bg-border" />
-                
-                {/* Timeline dot */}
-                <div className="absolute left-0 top-1 w-2 h-2 rounded-full bg-primary -translate-x-1/2 ring-4 ring-background" />
-                
-                <div className="flex items-start gap-4">
-                  <div className="flex items-center gap-2 text-primary font-display font-bold">
-                    <Calendar className="w-4 h-4" />
-                    {item.year}
-                  </div>
-                </div>
-                <h4 className="text-lg font-semibold text-foreground mt-2">
-                  {item.title}
-                </h4>
-                <p className="text-muted-foreground mt-1">
-                  {item.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Global Presence */}
-      <section className="section-padding bg-gradient-hero text-primary-foreground">
-        <div className="container mx-auto px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center max-w-3xl mx-auto mb-12"
-          >
-            <Globe className="w-12 h-12 text-secondary mx-auto mb-6" />
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Global <span className="text-secondary">Presence</span>
-            </h2>
-            <p className="text-xl text-primary-foreground/80">
-              Serving customers across continents with reliable export services
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {exportRegions.map((region, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="flex items-center justify-center gap-2 px-4 py-3 bg-primary-foreground/10 rounded-lg backdrop-blur-sm"
-              >
-                <MapPin className="w-4 h-4 text-secondary" />
-                <span className="text-sm font-medium">{region}</span>
-              </motion.div>
-            ))}
-          </div>
+            Contact Us
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
     </div>
