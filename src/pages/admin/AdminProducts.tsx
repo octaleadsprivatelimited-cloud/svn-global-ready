@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
-  Package, ArrowLeft, Plus, Edit, Trash2, X, Save, Image
+  Package, ArrowLeft, Plus, Edit, Trash2, Save, Upload, X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -38,11 +38,14 @@ const AdminProducts = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    image_url: '',
     category: '',
     is_active: true,
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!authLoading) {
@@ -78,7 +81,9 @@ const AdminProducts = () => {
 
   const openAddDialog = () => {
     setEditingProduct(null);
-    setFormData({ name: '', description: '', image_url: '', category: '', is_active: true });
+    setFormData({ name: '', description: '', category: '', is_active: true });
+    setImageFile(null);
+    setImagePreview(null);
     setIsDialogOpen(true);
   };
 
@@ -87,11 +92,48 @@ const AdminProducts = () => {
     setFormData({
       name: product.name,
       description: product.description || '',
-      image_url: product.image_url || '',
       category: product.category || '',
       is_active: product.is_active,
     });
+    setImageFile(null);
+    setImagePreview(product.image_url);
     setIsDialogOpen(true);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        toast({ title: "Error", description: "Please select an image file", variant: "destructive" });
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        toast({ title: "Error", description: "Image size must be less than 5MB", variant: "destructive" });
+        return;
+      }
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const uploadImage = async (file: File): Promise<string | null> => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('product-images')
+      .upload(fileName, file);
+
+    if (uploadError) {
+      console.error('Upload error:', uploadError);
+      throw uploadError;
+    }
+
+    const { data } = supabase.storage
+      .from('product-images')
+      .getPublicUrl(fileName);
+
+    return data.publicUrl;
   };
 
   const handleSave = async () => {
@@ -103,13 +145,21 @@ const AdminProducts = () => {
     setSaving(true);
 
     try {
+      let imageUrl = editingProduct?.image_url || null;
+
+      if (imageFile) {
+        setUploading(true);
+        imageUrl = await uploadImage(imageFile);
+        setUploading(false);
+      }
+
       if (editingProduct) {
         const { error } = await supabase
           .from('products')
           .update({
             name: formData.name.trim(),
             description: formData.description.trim() || null,
-            image_url: formData.image_url.trim() || null,
+            image_url: imageUrl,
             category: formData.category.trim() || null,
             is_active: formData.is_active,
           })
@@ -123,7 +173,7 @@ const AdminProducts = () => {
           .insert({
             name: formData.name.trim(),
             description: formData.description.trim() || null,
-            image_url: formData.image_url.trim() || null,
+            image_url: imageUrl,
             category: formData.category.trim() || null,
             is_active: formData.is_active,
           });
@@ -139,6 +189,7 @@ const AdminProducts = () => {
       toast({ title: "Error", description: "Failed to save product", variant: "destructive" });
     } finally {
       setSaving(false);
+      setUploading(false);
     }
   };
 
@@ -153,6 +204,14 @@ const AdminProducts = () => {
     } catch (error) {
       console.error('Error deleting product:', error);
       toast({ title: "Error", description: "Failed to delete product", variant: "destructive" });
+    }
+  };
+
+  const removeImage = () => {
+    setImageFile(null);
+    setImagePreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
@@ -217,7 +276,7 @@ const AdminProducts = () => {
                   {product.image_url ? (
                     <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" />
                   ) : (
-                    <Image className="w-16 h-16 text-muted-foreground/30" />
+                    <Package className="w-16 h-16 text-muted-foreground/30" />
                   )}
                 </div>
                 <div className="p-4">
@@ -275,11 +334,34 @@ const AdminProducts = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">Image URL</label>
-              <Input
-                value={formData.image_url}
-                onChange={(e) => setFormData(prev => ({ ...prev, image_url: e.target.value }))}
-                placeholder="https://example.com/image.jpg"
+              <label className="block text-sm font-medium mb-2">Product Image</label>
+              {imagePreview ? (
+                <div className="relative">
+                  <img src={imagePreview} alt="Preview" className="w-full h-40 object-cover rounded-lg" />
+                  <button
+                    type="button"
+                    onClick={removeImage}
+                    className="absolute top-2 right-2 p-1 bg-destructive text-destructive-foreground rounded-full hover:bg-destructive/90"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-8 text-center cursor-pointer hover:border-primary/50 transition-colors"
+                >
+                  <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">Click to upload image</p>
+                  <p className="text-xs text-muted-foreground mt-1">PNG, JPG up to 5MB</p>
+                </div>
+              )}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
               />
             </div>
             <div>
@@ -305,8 +387,8 @@ const AdminProducts = () => {
               <Button variant="outline" onClick={() => setIsDialogOpen(false)} className="flex-1">
                 Cancel
               </Button>
-              <Button onClick={handleSave} disabled={saving} className="flex-1">
-                {saving ? 'Saving...' : (
+              <Button onClick={handleSave} disabled={saving || uploading} className="flex-1">
+                {uploading ? 'Uploading...' : saving ? 'Saving...' : (
                   <>
                     <Save className="w-4 h-4 mr-2" />
                     {editingProduct ? 'Update' : 'Add Product'}
