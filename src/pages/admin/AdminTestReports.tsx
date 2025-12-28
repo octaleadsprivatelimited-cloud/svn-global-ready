@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
-  FileText, ArrowLeft, Plus, Edit, Trash2, Save, ExternalLink
+  FileText, ArrowLeft, Plus, Edit, Trash2, Save, Upload, X, ExternalLink
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -37,10 +37,13 @@ const AdminTestReports = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    file_url: '',
     is_public: true,
   });
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [pdfFileName, setPdfFileName] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!authLoading) {
@@ -76,7 +79,9 @@ const AdminTestReports = () => {
 
   const openAddDialog = () => {
     setEditingReport(null);
-    setFormData({ title: '', description: '', file_url: '', is_public: true });
+    setFormData({ title: '', description: '', is_public: true });
+    setPdfFile(null);
+    setPdfFileName(null);
     setIsDialogOpen(true);
   };
 
@@ -85,10 +90,47 @@ const AdminTestReports = () => {
     setFormData({
       title: report.title,
       description: report.description || '',
-      file_url: report.file_url || '',
       is_public: report.is_public,
     });
+    setPdfFile(null);
+    setPdfFileName(report.file_url ? 'Current file' : null);
     setIsDialogOpen(true);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.type !== 'application/pdf') {
+        toast({ title: "Error", description: "Please select a PDF file", variant: "destructive" });
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        toast({ title: "Error", description: "File size must be less than 10MB", variant: "destructive" });
+        return;
+      }
+      setPdfFile(file);
+      setPdfFileName(file.name);
+    }
+  };
+
+  const uploadPdf = async (file: File): Promise<string | null> => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('test-reports')
+      .upload(fileName, file);
+
+    if (uploadError) {
+      console.error('Upload error:', uploadError);
+      throw uploadError;
+    }
+
+    const { data } = supabase.storage
+      .from('test-reports')
+      .getPublicUrl(fileName);
+
+    return data.publicUrl;
   };
 
   const handleSave = async () => {
@@ -100,13 +142,21 @@ const AdminTestReports = () => {
     setSaving(true);
 
     try {
+      let fileUrl = editingReport?.file_url || null;
+
+      if (pdfFile) {
+        setUploading(true);
+        fileUrl = await uploadPdf(pdfFile);
+        setUploading(false);
+      }
+
       if (editingReport) {
         const { error } = await supabase
           .from('test_reports')
           .update({
             title: formData.title.trim(),
             description: formData.description.trim() || null,
-            file_url: formData.file_url.trim() || null,
+            file_url: fileUrl,
             is_public: formData.is_public,
           })
           .eq('id', editingReport.id);
@@ -119,7 +169,7 @@ const AdminTestReports = () => {
           .insert({
             title: formData.title.trim(),
             description: formData.description.trim() || null,
-            file_url: formData.file_url.trim() || null,
+            file_url: fileUrl,
             is_public: formData.is_public,
           });
 
@@ -134,6 +184,7 @@ const AdminTestReports = () => {
       toast({ title: "Error", description: "Failed to save test report", variant: "destructive" });
     } finally {
       setSaving(false);
+      setUploading(false);
     }
   };
 
@@ -148,6 +199,14 @@ const AdminTestReports = () => {
     } catch (error) {
       console.error('Error deleting test report:', error);
       toast({ title: "Error", description: "Failed to delete test report", variant: "destructive" });
+    }
+  };
+
+  const removeFile = () => {
+    setPdfFile(null);
+    setPdfFileName(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
@@ -232,7 +291,7 @@ const AdminTestReports = () => {
                             rel="noopener noreferrer"
                             className="text-xs text-primary hover:underline flex items-center gap-1"
                           >
-                            View File <ExternalLink className="w-3 h-3" />
+                            View PDF <ExternalLink className="w-3 h-3" />
                           </a>
                         )}
                       </div>
@@ -269,11 +328,40 @@ const AdminTestReports = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">File URL (PDF link)</label>
-              <Input
-                value={formData.file_url}
-                onChange={(e) => setFormData(prev => ({ ...prev, file_url: e.target.value }))}
-                placeholder="https://example.com/report.pdf"
+              <label className="block text-sm font-medium mb-2">Upload PDF</label>
+              {pdfFileName ? (
+                <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                  <FileText className="w-8 h-8 text-primary" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-foreground truncate">{pdfFileName}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {pdfFile ? `${(pdfFile.size / 1024 / 1024).toFixed(2)} MB` : 'Existing file'}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={removeFile}
+                    className="p-1 text-muted-foreground hover:text-destructive transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              ) : (
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-8 text-center cursor-pointer hover:border-primary/50 transition-colors"
+                >
+                  <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">Click to upload PDF</p>
+                  <p className="text-xs text-muted-foreground mt-1">PDF up to 10MB</p>
+                </div>
+              )}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="application/pdf"
+                onChange={handleFileChange}
+                className="hidden"
               />
             </div>
             <div>
@@ -299,8 +387,8 @@ const AdminTestReports = () => {
               <Button variant="outline" onClick={() => setIsDialogOpen(false)} className="flex-1">
                 Cancel
               </Button>
-              <Button onClick={handleSave} disabled={saving} className="flex-1">
-                {saving ? 'Saving...' : (
+              <Button onClick={handleSave} disabled={saving || uploading} className="flex-1">
+                {uploading ? 'Uploading...' : saving ? 'Saving...' : (
                   <>
                     <Save className="w-4 h-4 mr-2" />
                     {editingReport ? 'Update' : 'Add Report'}
