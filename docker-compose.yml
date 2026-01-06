@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: svn-global-backend
+    ports:
+      # Map host port to container port
+      # Hostinger typically uses port 8000, but can be overridden via PORT env var
+      # Format: HOST_PORT:CONTAINER_PORT (container always uses 3000)
+      - "8000:3000"
+    env_file:
+      - .env
+    environment:
+      # Override PORT if Hostinger provides it
+      - PORT=3000
+      - NODE_ENV=production
+    restart: always
+    volumes:
+      # Mount logs directory for persistence
+      - ./logs:/app/logs
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+networks:
+  app-network:
+    driver: bridge
+
